@@ -1,14 +1,15 @@
-import React, { Component } from 'react';
-import { observable } from 'mobx';
-import { observer } from 'mobx-react';
-import { Flex, Box } from 'grid-styled';
-import styled from 'styled-components';
+import React, { Component } from "react";
+import { observable } from "mobx";
+import { observer } from "mobx-react";
+import { Flex, Box } from "grid-styled";
+import styled from "styled-components";
+import Lamp from "./Lamp";
 
 const Container = styled(Box)`
   max-width: 1024px;
 `;
 Container.defaultProps = {
-  mx: 'auto'
+  mx: "auto"
 };
 const GreyBox = styled(Box)`
   background-color: #ccc;
@@ -27,7 +28,7 @@ const BlueFlex = styled(Flex)`
 @observer
 class App extends Component {
   @observable counter = 0;
-
+  @observable lightOn = false;
   onIncrement = () => {
     this.counter++;
   };
@@ -36,10 +37,14 @@ class App extends Component {
     this.counter--;
   };
 
+  toggleLights = () => {
+    this.lightOn = !this.lightOn;
+  };
+
   render() {
     return (
       <Container p={20}>
-        <Flex alignItems={'center'}>
+        <Flex alignItems={"center"}>
           <GreyBox width={1 / 2} px={2}>
             <button onClick={this.onIncrement} type="button">
               Increment
@@ -51,11 +56,18 @@ class App extends Component {
             </button>
           </GreyBox>
         </Flex>
-        <BlueFlex alignItems={'center'}>
+        <BlueFlex alignItems={"center"}>
           <Box width={1} />
           <Box width={1 / 10}>{this.counter}</Box>
           <Box width={1}> </Box>
         </BlueFlex>
+        <Flex>
+          <button onClick={this.toggleLights} type="button">
+            Flip
+          </button>
+        </Flex>
+
+        <Lamp lit={this.lightOn} />  
       </Container>
     );
   }
